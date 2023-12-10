@@ -1,38 +1,55 @@
 import { useDispatch} from 'react-redux';
 
-import {clearItemFromCart, addItemToCart, removeItemFromCart,} from '../../store/cart/cart.reducer';
 // import { selectCartItems } from '../../store/cart/cart.selector';
+import { addItemToCart, removeItemFromCart, clearItemFromCart } from '../../store/cart/cart.reducer';
 
-import {CheckoutItemContainer, ImageContainer, BaseSpan, Quantity, Arrow, Value, RemoveButton } from './checkout-item.styles';
+import {CheckoutItemContainer, ImageContainer, CheckoutItemName, CheckoutItemQuantity, Value, Price, ItemTotal, LeftArrow, RightArrow, RemoveButton } from './checkout-item.styles';
 
-const CheckoutItem = ({ cartItem }) => {
-  const { name, imageUrl, price, quantity } = cartItem;
-  const dispatch = useDispatch();
-  // const cartItems = useSelector(selectCartItems);
+import DeleteForever from '@mui/icons-material/DeleteForever';
 
-  const clearItemHandler = () => dispatch(clearItemFromCart(cartItem));
-  const addItemHandler = () => dispatch(addItemToCart(cartItem));
-  const removeItemHandler = () => dispatch(removeItemFromCart(cartItem));
+const CheckoutItem = ({cartItem}) => {
+    const {name, imageUrl, price, quantity} = cartItem;
+    const dispatch = useDispatch();
+    // const cartItems = useSelector(selectCartItems);
 
-  // const clearItemHandler = () => dispatch(clearItemFromCart(cartItems, cartItem));
-  // const addItemHandler = () => dispatch(addItemToCart(cartItems, cartItem));
-  // const removeItemHandler = () => dispatch(removeItemFromCart(cartItems, cartItem));
+    const permanentlyRemoveFromCart = () => dispatch(clearItemFromCart(cartItem));
+    const addOneToCart = () => dispatch(addItemToCart(cartItem));
+    const removeOneFromCart = () => dispatch(removeItemFromCart(cartItem));
 
-  return (
-    <CheckoutItemContainer>
-      <ImageContainer>
-        <img src={imageUrl} alt={`${name}`} />
-      </ImageContainer>
-      <BaseSpan> {name} </BaseSpan>
-      <Quantity>
-        <Arrow onClick={removeItemHandler}>&#10094;</Arrow>
-        <Value>{quantity}</Value>
-        <Arrow onClick={addItemHandler}>&#10095;</Arrow>
-      </Quantity>
-      <BaseSpan> {price}</BaseSpan>
-      <RemoveButton onClick={clearItemHandler}>&#10005;</RemoveButton>
-    </CheckoutItemContainer>
-  );
+    // const permanentlyRemoveFromCart = () => dispatch(clearItemFromCart(carrItems, cartItem));
+    // const addOneToCart = () => dispatch(addItemToCart(carrItems, cartItem));
+    // const removeOneFromCart = () => dispatch(removeItemFromCart(carItems, cartItem));
+
+    return (
+        <CheckoutItemContainer>
+            <ImageContainer>
+                <img src={imageUrl} alt={`${name}`}></img>
+            </ImageContainer>
+
+            <CheckoutItemName>{name}</CheckoutItemName>
+
+            <CheckoutItemQuantity>
+                <LeftArrow onClick={removeOneFromCart}>
+                    &#10094;
+                </LeftArrow>
+
+                <Value>{quantity}</Value>
+
+                <RightArrow onClick={addOneToCart}>
+                    &#10095;
+                </RightArrow> 
+            </CheckoutItemQuantity>
+
+            <Price>$ {price}</Price>
+
+            <ItemTotal>$ {price * quantity}</ItemTotal>
+
+            <RemoveButton onClick={permanentlyRemoveFromCart}>
+              <DeleteForever></DeleteForever>
+            </RemoveButton>
+            
+        </CheckoutItemContainer>
+    );
 };
 
 export default CheckoutItem;

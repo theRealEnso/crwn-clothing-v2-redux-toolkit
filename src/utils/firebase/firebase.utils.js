@@ -33,7 +33,7 @@ export const db = getFirestore(app); //first, instantiate firestore
 
 //async function to create collection in firebase and create documents. Has two parameters collectionKey and objectToAdd. ObjectToAdd is a placeholder that will accept the array of objects for each of our product categories inside shop-data.js (passing in SHOP_DATA), and collectionKey is placeholder that will accept a string--will pass 'categories' string so that db will create a collection named "categories"
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
-    const collectionRef = collection(db, collectionKey); //collectionRef now refers to categories collection inside db
+    const collectionRef = collection(db, collectionKey); //collectionRef now points to categories collection inside db
     const batch = writeBatch(db); // create batch instance in order to add all of our objects to collectionRef in one successful transaction. A writeBatch is created using the writeBatch method from the Firestore SDK. A batch is a way to perform multiple write operations atomically. This means that either all the write operations will succeed, or none of them will.
 
     //Iterating through SHOP_DATA, create and set each object into collectionRef a.k.a categories collection as a new document, using the title as the ID. This creates hats/jackets/mens/sneakers/womens documents that will be nested under categories using the doc method. Finally, set method is used to populate  hats/jackets/mens/sneakers/womens docs with their respective data
@@ -111,7 +111,7 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
 
-
+//function that just checks if there is an authenticated user or not
 export const getCurrentUser = () => {
     return new Promise((resolve, reject) => {
         const unsubscribe = onAuthStateChanged(auth, (userAuth) => {

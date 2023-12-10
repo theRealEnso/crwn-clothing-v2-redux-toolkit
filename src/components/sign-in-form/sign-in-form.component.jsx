@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import {useDispatch, useSelector} from 'react-redux';
+import { selectCurrentUser } from '../../store/user/user.selector';
+
+import { googleSignInStart, emailSignInStart } from '../../store/user/user.reducer';
 
 import FormInput from '../form-input/form-input.component';
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 
-import {
-  signInAuthUserWithEmailAndPassword,
-  signInWithGooglePopup,
-} from '../../utils/firebase/firebase.utils';
+// import {signInAuthUserWithEmailAndPassword, signInWithGooglePopup,} from '../../utils/firebase/firebase.utils';
 
 import { SignInContainer, ButtonsContainer } from './sign-in-form.styles';
 
@@ -16,6 +19,13 @@ const defaultFormFields = {
 };
 
 const SignInForm = () => {
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  const currentUser = useSelector(selectCurrentUser);
+
+  const signInWithGoogle = async () => dispatch(googleSignInStart());
+
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
@@ -23,59 +33,47 @@ const SignInForm = () => {
     setFormFields(defaultFormFields);
   };
 
-  const signInWithGoogle = async () => {
-    await signInWithGooglePopup();
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormFields({
+      ...formFields, 
+      [name]: value 
+    });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      await signInAuthUserWithEmailAndPassword(email, password);
+      dispatch(emailSignInStart({email, password}));
       resetFormFields();
     } catch (error) {
       console.log('user sign in failed', error);
     }
   };
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
-    setFormFields({ ...formFields, [name]: value });
-  };
+  useEffect(() => {
+    if(currentUser){
+      navigate('/')
+    }
+  }, [currentUser, navigate])
 
   return (
     <SignInContainer>
       <h2>Already have an account?</h2>
       <span>Sign in with your email and password</span>
-      <form onSubmit={handleSubmit}>
-        <FormInput
-          label='Email'
-          type='email'
-          required
-          onChange={handleChange}
-          name='email'
-          value={email}
-        />
 
-        <FormInput
-          label='Password'
-          type='password'
-          required
-          onChange={handleChange}
-          name='password'
-          value={password}
-        />
+      <form onSubmit={handleSubmit}>
+        <FormInput label='Email' type='email' required onChange={handleInputChange} name='email' value={email}/>
+
+        <FormInput label='Password' type='password' required onChange={handleInputChange} name='password' value={password}/>
+
         <ButtonsContainer>
           <Button type='submit'>Sign In</Button>
-          <Button
-            buttonType={BUTTON_TYPE_CLASSES.google}
-            type='button'
-            onClick={signInWithGoogle}
-          >
-            Sign In With Google
-          </Button>
+          <Button buttonType={BUTTON_TYPE_CLASSES.google} type='button' onClick={signInWithGoogle}>Sign In With Google</Button>
         </ButtonsContainer>
+
       </form>
     </SignInContainer>
   );

@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
+
 body {
   margin: 0;
   padding: 20px 40px;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: 'Acme', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -19,3 +21,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+/* @media screen and (max-width: 2160px) {
+  html {
+    -moz-transform: scale(3, 3);
+    zoom: 3;
+    zoom: 300%;
+  }
+} */

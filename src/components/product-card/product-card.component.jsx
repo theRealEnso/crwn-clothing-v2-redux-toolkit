@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 
 // import { selectCartItems } from '../../store/cart/cart.selector';
 import { addItemToCart } from '../../store/cart/cart.reducer';
@@ -18,7 +18,6 @@ const ProductCard = ({ product }) => {
   // const cartItems = useSelector(selectCartItems);
 
   const addProductToCart = () => dispatch(addItemToCart(product));
-  // const addProductToCart = () => dispatch(addItemToCart(cartItems, product));
 
   return (
     <ProductCartContainer>

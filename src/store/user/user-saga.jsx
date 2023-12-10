@@ -58,7 +58,7 @@ export function* signUpUser({payload: {email, password, displayName}}) {
     };
 };
 
-export function* signUserInAfterSignUp({payload: {user, additionalInformation }}) {
+export function* signUserInAfterSignUp({payload: {user, additionalInformation}}) {
     yield call(getSnapshotFromUserAuth, user, additionalInformation);
 };
 

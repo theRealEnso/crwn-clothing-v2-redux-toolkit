@@ -73,8 +73,8 @@ export const createUserDocumentOrSignInUserFromAuth = async (userAuth, additiona
     console.log(userDocRef);
 
     const userSnapshot = await getDoc(userDocRef); //actually get the data inside the document reference
-    console.log(userSnapshot);
-    console.log(userSnapshot.exists()); //.exists method returns a boolean
+    // console.log(userSnapshot);
+    // console.log(userSnapshot.exists()); //.exists method returns a boolean
 
      //If user data does not exist yet, then use setDoc function to set the data inside the document, and then place document inside the database. Otherwise, document already exists and simply return to me that document
     if(!userSnapshot.exists()) {

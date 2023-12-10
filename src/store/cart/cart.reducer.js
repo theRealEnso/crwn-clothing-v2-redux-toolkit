@@ -43,6 +43,7 @@ const clearCartItem = (cartItems, cartItemToClear) =>
 const CART_INITIAL_STATE = {
   isCartOpen: false,
   cartItems: [],
+  addedProduct: null,
 };
 
 export const cartSlice = createSlice({
@@ -63,11 +64,19 @@ export const cartSlice = createSlice({
 
     setIsCartOpen: (state, action) => {
       state.isCartOpen = action.payload;
+    },
+
+    addToCartSuccess: (state, action) => {
+      state.addedProduct = action.payload;
+    },
+
+    clearSuccessMessage: (state) => {
+      state.addedProduct = null;
     }
   }
 });
 
-export const {addItemToCart, removeItemFromCart, clearItemFromCart, setIsCartOpen} = cartSlice.actions;
+export const {addItemToCart, removeItemFromCart, clearItemFromCart, setIsCartOpen, addToCartSuccess, clearSuccessMessage} = cartSlice.actions;
 
 export const cartReducer = cartSlice.reducer;
 

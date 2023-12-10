@@ -1,4 +1,13 @@
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
+
+const fadeInOut = keyframes`
+  0%, 100% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+`;
 
 export const ProductCartContainer = styled.div`
   width: 100%;
@@ -51,3 +60,19 @@ export const Name = styled.span`
 export const Price = styled.span`
   width: 10%;
 `;
+
+export const AddSuccessMessage = styled.div`
+  color: rgb(71, 240, 55);
+  font-size: 16px;
+  margin-top: -150px;
+  animation: ${fadeInOut} 3s ease-out;
+`
+
+// @keyframes fade-in-out {
+//   0%, 100% {
+//     opacity: 0;
+//   }
+//   10%, 90% {
+//     opacity: 1;
+//   }
+// }

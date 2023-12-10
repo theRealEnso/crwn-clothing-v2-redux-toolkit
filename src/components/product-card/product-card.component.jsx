@@ -1,7 +1,7 @@
 import { useDispatch, useSelector} from 'react-redux';
 
 // import { selectCartItems } from '../../store/cart/cart.selector';
-import { addItemToCart, addToCartSuccess, clearSuccessMessage } from '../../store/cart/cart.reducer';
+import { addItemToCart, clearSuccessMessage } from '../../store/cart/cart.reducer';
 import {selectAddedProduct } from '../../store/cart/cart.selector';
 
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
@@ -23,11 +23,7 @@ const ProductCard = ({ product }) => {
 
   const addProductToCart = () => {
     dispatch(addItemToCart(product));
-
-    dispatch(addToCartSuccess(product));
-
-    setTimeout(() => dispatch(clearSuccessMessage()), 2000);
-
+    setTimeout(() => dispatch(clearSuccessMessage()), 3000);
   };
 
   return (

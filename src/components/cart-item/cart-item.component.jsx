@@ -2,7 +2,7 @@ import {useDispatch} from 'react-redux';
 // import { selectCartItems } from '../../store/cart/cart.selector';
 
 import { addItemToCart, removeItemFromCart, clearItemFromCart } from '../../store/cart/cart.reducer';
-import { CartItemContainer, ItemDetails, IconContainer, CartItemName, Subtract, Add, Remove } from './cart-item.styles';
+import { CartItemContainer, ItemDetails, IconContainer, CartItemName, QuantityXPrice, Subtract, Add, Remove } from './cart-item.styles';
 
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -26,7 +26,7 @@ const CartItem = ({ cartItem }) => {
       <img src={imageUrl} alt={`${name}`} />
       <ItemDetails>
         <CartItemName>{name}</CartItemName>
-        <span>{quantity} x ${price}</span>
+        <QuantityXPrice>{quantity} x ${price}</QuantityXPrice>
 
         <IconContainer>
           <Subtract onClick={removeOneFromCart}>

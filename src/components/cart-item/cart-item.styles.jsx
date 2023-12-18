@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-const hoverColor = `rgb(35, 245, 241)`;
+const subtractColor = `rgb(186, 7, 7)`;
+const addColor = `rgb(38, 196, 24)`;
 const removeColor = 'rgb(255, 26, 26)';
 
 export const CartItemContainer = styled.div`
@@ -30,11 +31,14 @@ export const ItemDetails = styled.div`
 
 export const IconContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
 `
 
 export const CartItemName = styled.span`
-  font-size: 8px
+  font-size: 8px;
+`
+
+export const QuantityXPrice = styled.span`
+  margin-left: 30px;
 `
 
 export const Subtract = styled.div`
@@ -42,7 +46,7 @@ export const Subtract = styled.div`
   cursor: pointer;
   font-size: 10px;
   &:hover {
-    color: ${hoverColor};
+    color: ${subtractColor};
   }
 `;
 
@@ -51,7 +55,7 @@ export const Add = styled.div`
   cursor: pointer;
   font-size: 10px;
   &:hover {
-    color: ${hoverColor};
+    color: ${addColor};
   }
 `;
 

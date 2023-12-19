@@ -23,6 +23,25 @@ const PaymentForm = () => {
         }).then(response => response.json());
 
         console.log(response);
+
+        const {paymentIntent: {client_secret}} = response;
+
+        const paymentResult = await stripe.confirmCardPayment(client_secret, {
+            payment_method: {
+                card: elements.getElement(CardElement),
+                billing_details: {
+                    name: 'Ben Vu'
+                }
+            }
+        })
+
+        if(paymentResult.error){
+            alert(paymentResult.error);
+        } else {
+            if (paymentResult.paymentIntent.status === 'succeeded'){
+                alert(`Payment Successful`);
+            }
+        }
     }
 
     return (
@@ -33,7 +52,7 @@ const PaymentForm = () => {
                 <CardElement></CardElement>
                 <Button buttonType={BUTTON_TYPE_CLASSES.inverted}>Pay Now</Button>
             </FormContainer>
-            
+
         </PaymentFormContainer>
     )
 };

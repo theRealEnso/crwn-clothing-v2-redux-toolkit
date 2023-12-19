@@ -10,6 +10,7 @@ export const BUTTON_TYPE_CLASSES = {
   inverted: 'inverted',
 };
 
+//function that returns different styled button components depending on the buttonType prop being passed in. Default buttonType is the base button
 const getButton = (buttonType = BUTTON_TYPE_CLASSES.base) =>
   ({
     [BUTTON_TYPE_CLASSES.base]: BaseButton,

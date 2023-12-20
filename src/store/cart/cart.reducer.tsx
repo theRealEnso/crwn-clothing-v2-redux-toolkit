@@ -2,37 +2,45 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-const addCartItem = (cartItems, productToAdd) => {
-  const existingCartItem = cartItems.find((cartItem) => cartItem.id === productToAdd.id);
+import {CategoryItem } from "../categories/category.types";
 
-  if (existingCartItem) {
+export type CartItem = CategoryItem & {
+  quantity: number;
+};
+
+export type CartState = {
+  isCartOpen: boolean;
+  cartItems: CartItem[];
+  addedProduct: null | CategoryItem;
+};
+
+const addCartItem = (cartItems: CartItem[], productToAdd: CartItem): CartItem[] => {
+  const itemExistsInCart = cartItems.find((cartItem) => cartItem.id === productToAdd.id);
+
+  if (itemExistsInCart) {
     return cartItems.map((cartItem) => cartItem.id === productToAdd.id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem);
   }
 
   return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
-const removeCartItem = (cartItems, cartItemToRemove) => {
+const removeCartItem = (cartItems: CartItem[], cartItemToRemove: CartItem): CartItem[] => {
   // find the cart item to remove
-  const existingCartItem = cartItems.find((cartItem) => cartItem.id === cartItemToRemove.id);
+  const itemExistsInCart = cartItems.find((cartItem) => cartItem.id === cartItemToRemove.id);
 
   // check if quantity is equal to 1, if it is remove that item from the cart
-  if (existingCartItem.quantity === 1) {
+  if (itemExistsInCart && itemExistsInCart.quantity === 1) {
     return cartItems.filter((cartItem) => cartItem.id !== cartItemToRemove.id);
   }
 
   // return back cartitems with matching cart item with reduced quantity
-  return cartItems.map((cartItem) =>
-    cartItem.id === cartItemToRemove.id
-      ? { ...cartItem, quantity: cartItem.quantity - 1 }
-      : cartItem
-  );
+  return cartItems.map((cartItem) => cartItem.id === cartItemToRemove.id ? { ...cartItem, quantity: cartItem.quantity - 1 } : cartItem);
 };
 
-const clearCartItem = (cartItems, cartItemToClear) =>
+const clearCartItem = (cartItems: CartItem[], cartItemToClear: CartItem): CartItem[] =>
   cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
 
-const CART_INITIAL_STATE = {
+const CART_INITIAL_STATE: CartState = {
   isCartOpen: false,
   cartItems: [],
   addedProduct: null,

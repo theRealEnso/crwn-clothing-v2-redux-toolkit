@@ -1,7 +1,14 @@
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
-import {getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'firebase/auth';
+import {getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User, NextOrObserver} from 'firebase/auth';
 import {getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs} from 'firebase/firestore'; // doc gets document instance, getDoc function only gets data inside a document instance. Likewise, setDoc function only sets the data inside a document. The doc function is what allows us to get the entire document instance (super confusing naming convention!)
+
+import { CategoryItem } from "../../store/categories/category.types";
+
+export type ProductObject = {
+    title: string;
+    items: CategoryItem[];
+};
 
 const firebaseConfig = {
   apiKey: "AIzaSyD79nPXhJ9-gsSaP1j0XFy09oMdBT-Kzhg",
@@ -32,7 +39,7 @@ export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googlePro
 export const db = getFirestore(app); //first, instantiate firestore
 
 //async function to create collection in firebase and create documents. Has two parameters collectionKey and objectToAdd. ObjectToAdd is a placeholder that will accept the array of objects for each of our product categories inside shop-data.js (passing in SHOP_DATA), and collectionKey is placeholder that will accept a string--will pass 'categories' string so that db will create a collection named "categories"
-export const addCollectionAndDocuments = async (collectionKey, productObjectsToAdd) => {
+export const addCollectionAndDocuments = async (collectionKey: string, productObjectsToAdd: ProductObject[]) => {
     const collectionRef = collection(db, collectionKey); //collectionRef now points to the space where categories collection exists inside db (if not existing, then creates the name space)
     const batch = writeBatch(db); // create batch instance in order to add all of our objects to collectionRef in one successful transaction. A writeBatch is created using the writeBatch method from the Firestore SDK. A batch is a way to perform multiple write operations atomically. This means that either all the write operations will succeed, or none of them will.
 
@@ -52,6 +59,7 @@ export const addCollectionAndDocuments = async (collectionKey, productObjectsToA
 
 // addCollectionAndDocuments('categories', SHOP_DATA);
 
+
 //async function to get categories + products documents from firestore, returns them as an map object (closest thing to hashmap)
 export const getCategoriesAndDocuments = async () => {
     const collectionRef = collection(db, 'categories'); //collectionRef uses collection method to create a reference to categories collection inside firebase
@@ -66,7 +74,7 @@ export const getCategoriesAndDocuments = async () => {
 };
 
 //async function that accepts user authentication object and store inside of firestore =>  (reminder that userAuth is just a placeholder name). We will be passing in destructured user data directly from the response object back in the SignInComponent
-export const createUserDocumentOrSignInUserFromAuth = async (userAuth, additionalInformation = {}) => {
+export const createUserDocumentOrSignInUserFromAuth = async (userAuth: User, additionalInformation = {}) => {
     if(!userAuth) return;
     //doc function takes 3 arguments (firestore database instance, name of collection (will set collection with name if it does not exist), and a unique ID)
     const userDocRef = doc(db, 'users', userAuth.uid); //use unique id from user object to get document reference that points to where the data exists in firebase. Only a pointer, not actual data
@@ -97,19 +105,19 @@ export const createUserDocumentOrSignInUserFromAuth = async (userAuth, additiona
     };
 };
 
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
+export const createAuthUserWithEmailAndPassword = async (email: string, password: string) => {
     if(!email || !password) return;
     return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+export const signInAuthUserWithEmailAndPassword = async (email: string, password: string) => {
     if(!email || !password) return;
     return await signInWithEmailAndPassword(auth, email, password);
 };
 
 export const signOutUser = async () => await signOut(auth);
 
-export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
+export const onAuthStateChangedListener = (callback: NextOrObserver<User>) => onAuthStateChanged(auth, callback);
 
 //function that just checks if there is an authenticated user or not
 export const getCurrentUser = () => {

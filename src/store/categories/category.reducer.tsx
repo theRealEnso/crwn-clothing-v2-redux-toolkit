@@ -1,8 +1,15 @@
 // import { CATEGORIES_ACTION_TYPES } from './category.types';
 
 import { createSlice } from "@reduxjs/toolkit";
+import {Category} from './category.types'
 
-export const CATEGORIES_INITIAL_STATE = {
+export type CategoriesState = {
+  categoriesArray: Category[];
+  isLoading: boolean;
+  error: Error | null
+}
+
+export const CATEGORIES_INITIAL_STATE: CategoriesState = {
   categoriesArray: [],
   isLoading: false,
   error: null

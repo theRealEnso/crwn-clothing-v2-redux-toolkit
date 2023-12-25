@@ -1,23 +1,13 @@
 // import {all, call, put, takeLatest} from 'redux-saga/effects';
-import {all, call, put, takeLatest, CallEffect, PutEffect} from 'typed-redux-saga/macro'; // add /macro to leverage the babel macro plugin
+import {all, call, put, takeLatest, take, actionChannel} from 'typed-redux-saga/macro'; // add /macro to leverage the babel macro plugin
+
+import { PayloadAction } from '@reduxjs/toolkit';
 
 import { createUserDocumentOrSignInUserFromAuth, getCurrentUser, signInWithGooglePopup, signInAuthUserWithEmailAndPassword, signOutUser, createAuthUserWithEmailAndPassword, AdditionalInformation } from '../../utils/firebase/firebase.utils';
 
 import { checkUserSession, googleSignInStart, emailSignInStart, signUpStart, signOutStart, signInSuccess, signInFailed, signUpSuccess, signUpFailed, signOutSuccess, signOutFailed,  } from './user.reducer';
 
 import {User} from 'firebase/auth';
-import {Action} from 'redux';
-
-type EmailSignInStart = ReturnType<typeof emailSignInStart>;
-type SignUp = ReturnType<typeof signUpStart>;
-
-function* onEmailSignInStartSaga(action: EmailSignInStart): Generator<CallEffect | PutEffect<Action>> {
-    yield* call(signInWithEmail, action.payload); // Call your existing saga function with the payload
-}
-  
-function* onSignUpStartSaga(action: SignUp): Generator<CallEffect | PutEffect<Action>> {
-    yield* call(signUpUser, action.payload); // Call existing saga function with the payload
-  }
 
 //effects from saga => call effects are plain objects that describe what's happening. Use call when calling another function, making api requests, etc
 // {
@@ -64,7 +54,9 @@ export function* signInWithEmail({payload: {email, password}}: { payload: { emai
         const userCredential = yield* call(signInAuthUserWithEmailAndPassword, email, password);
         if(userCredential){
             const {user} = userCredential;
-            yield* call(getSnapshotFromUserAuth, user)
+            // const pickedUserValues = user && (({email, displayName}) => ({email, displayName}))(user);
+
+            yield* call(getSnapshotFromUserAuth, user);
         }
     } catch (error) {
         yield* put(signInFailed(error as Error));
@@ -78,7 +70,10 @@ export function* signUpUser({payload: {email, password, displayName}}: {payload:
         const userCredential = yield* call(createAuthUserWithEmailAndPassword, email, password);
         if(userCredential){
             const {user} = userCredential;
-            yield* put(signUpSuccess({user, displayName}));
+            const pickedUserValues = user && (({email, displayName}) => ({email, displayName}))(user);
+
+            // yield* put(signUpSuccess({user, displayName}));
+            yield* put(signUpSuccess(pickedUserValues));
         }
     } catch(error) {
         yield* put(signUpFailed(error as Error));
@@ -107,11 +102,29 @@ export function* onGoogleSignInStart() {
 };
 
 export function* onEmailSignInStart(){
-    yield* takeLatest(emailSignInStart.type, onEmailSignInStartSaga);
+    // yield* takeLatest(emailSignInStart, signInWithEmail);
+    const emailSignInChannel = yield* actionChannel(emailSignInStart);
+    while (true) {
+      const action: PayloadAction<{email: string; password: string} | undefined> = yield* take(emailSignInChannel);
+
+      if(action.payload){
+        const {payload} = action;
+        yield* call(signInWithEmail, {payload})
+      };
+    };
 };
 
 export function* onSignUpStart() {
-    yield* takeLatest(signUpStart.type, onSignUpStartSaga);
+    // yield* takeLatest(signUpStart, signUpUser);
+    const signUpStartChannel = yield* actionChannel(signUpStart);
+    while (true) {
+      const action: PayloadAction<{ email: string; password: string; displayName: string } | undefined> = yield* take(signUpStartChannel);
+
+      if(action.payload){
+        const {payload} = action;
+        yield* call(signUpUser, {payload});
+      };
+    };
 };
 
 export function* onSignUpSuccess() {

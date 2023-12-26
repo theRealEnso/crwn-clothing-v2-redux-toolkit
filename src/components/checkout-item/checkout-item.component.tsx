@@ -1,4 +1,5 @@
 import { useDispatch} from 'react-redux';
+import {FC} from 'react';
 
 // import { selectCartItems } from '../../store/cart/cart.selector';
 import { addItemToCart, removeItemFromCart, clearItemFromCart } from '../../store/cart/cart.reducer';
@@ -7,7 +8,13 @@ import {CheckoutItemContainer, ImageContainer, CheckoutItemName, CheckoutItemQua
 
 import DeleteForever from '@mui/icons-material/DeleteForever';
 
-const CheckoutItem = ({cartItem}) => {
+import { CartItem} from '../../store/cart/cart.reducer';
+
+type CheckoutItemProps = {
+    cartItem: CartItem
+};
+
+const CheckoutItem: FC<CheckoutItemProps> = ({cartItem}) => {
     const {name, imageUrl, price, quantity} = cartItem;
     const dispatch = useDispatch();
     // const cartItems = useSelector(selectCartItems);

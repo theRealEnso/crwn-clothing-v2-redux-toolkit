@@ -2,7 +2,16 @@ import ProductCard from '../product-card/product-card.component';
 
 import {CategoryPreviewContainer, Title, Preview, ViewMore, ViewMoreLink} from './category-preview.styles';
 
-const CategoryPreview = ({ title, products }) => {
+import {FC} from 'react'
+;
+import { CategoryItem } from '../../store/categories/category.types';
+
+type CategoryPreviewProps = {
+  title: string;
+  products: CategoryItem[]
+}
+
+const CategoryPreview: FC<CategoryPreviewProps> = ({ title, products}) => {
   return (
     <CategoryPreviewContainer>
       <h2>

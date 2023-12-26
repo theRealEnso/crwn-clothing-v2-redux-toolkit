@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {User} from 'firebase/auth';
-// import { UserData } from '../../utils/firebase/firebase.utils';
 
 export type UserState = {
   currentUser: User | null;
@@ -31,8 +30,30 @@ export const userSlice = createSlice({
       state.isLoading = true;
     },
 
-    emailSignInStart: (state) => {
-      state.isLoading = true;
+    // emailSignInStart: (state) => {
+    //   state.isLoading = true;
+    // },
+
+    // change emailSignInStart to be defined as a reducer action object rather than a explicit reducer function. Then, define reducer as a function that receives a state and/or action
+    // prepare is a special callback function in RTK and allows us to modify or preprocess the action payload before it gets passed to the reducer
+
+    // someAction: {
+    //   reducer: (state, action) => {
+    //     // Reducer logic
+    //   },
+    //   prepare: (arg1, arg2, ...) => {
+    //     // Return an object with a 'payload' property
+    //     return { payload: /* processed payload */ };
+    //   },
+    // }
+    emailSignInStart: {
+      reducer: (state) => {
+        state.isLoading = true;
+      },
+      prepare: ({email, password}: {email: string; password: string}) => {
+        return {payload: {email, password}}
+      }
+  
     },
 
     signInSuccess: (state, action) => {
@@ -46,8 +67,18 @@ export const userSlice = createSlice({
       state.isLoading = false;
     },
 
-    signUpStart: (state) => {
-      state.isLoading = true;
+    // signUpStart: (state) => {
+    //   state.isLoading = true;
+    // },
+
+    signUpStart: {
+      reducer: (state) => {
+        state.isLoading = true;
+      },
+
+      prepare: ({email, password, displayName}: {email: string; password: string; displayName: string}) => {
+        return ({payload: {email, password, displayName}});
+      }
     },
 
     signUpSuccess: (state, action) => {

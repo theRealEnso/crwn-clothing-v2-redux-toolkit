@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import {getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User, NextOrObserver, UserCredential} from 'firebase/auth';
 import {getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs, QueryDocumentSnapshot} from 'firebase/firestore'; // doc gets document instance, getDoc function only gets data inside a document instance. Likewise, setDoc function only sets the data inside a document. The doc function is what allows us to get the entire document instance (super confusing naming convention!)
 
-import { Category, CategoryItem } from "../../store/categories/category.types";
+import { Category } from "../../store/categories/category.types";
 
 // export type ProductObject = {
 //     title: string;
@@ -78,7 +78,7 @@ export const getCategoriesAndDocuments = async (): Promise<Category[]> => {
     const querySnapshot = await getDocs(q); // The getDocs method from the Firestore SDK is used to asynchronously retrieve the documents matching the query, which is stored in the querySnapshot constant.
     // console.log(querySnapshot); //prints giant object. Need to nest deeper
     console.log(querySnapshot.docs); //nest one layer deeper => .docs contains array of 5 general product doc instances for each category, but not actual data
-    const categoriesArray = querySnapshot.docs.map((document) => document.data()); // give me the actual data inside the general product document instances => returns actual array of 5 giant product objects per category
+    const categoriesArray = querySnapshot.docs.map((document) => document.data()); // give me the actual data inside the general product document instances => returns actual array of 5 giant product objects per category (check shop-data.js file for exact shape)
 
     return categoriesArray as Category[];
 };

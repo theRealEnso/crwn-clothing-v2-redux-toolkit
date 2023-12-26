@@ -18,7 +18,7 @@ declare global {
   }
 };
 
-type ExtendedPersistConfig = PersistConfig<RootState> & { // pass Rootstate into PersistConfig type from Redux, then intersect it with another type that defines what the whitelist can contain
+type ExtendedPersistConfig = PersistConfig<RootState> & { // pass Rootstate into PersistConfig type that we get from redux-persist library, then intersect it with another type that defines what the whitelist can contain
   whitelist: (keyof RootState)[]; // keyof lets us get only the key values of the RootState, which is what we want the whitelist array to contain ('user', 'categories', 'cart' )
 }
 

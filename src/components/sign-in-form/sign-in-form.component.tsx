@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {useDispatch, useSelector} from 'react-redux';
@@ -13,6 +13,11 @@ import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 
 import { SignInContainer, ButtonsContainer } from './sign-in-form.styles';
 
+// interface SignInPayload {
+//   email: string;
+//   password: string;
+// }
+
 const defaultFormFields = {
   email: '',
   password: '',
@@ -24,7 +29,7 @@ const SignInForm = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
 
-  const signInWithGoogle = async () => dispatch(googleSignInStart());
+  const signInWithGoogle = async () => dispatch(googleSignInStart(undefined)); // pass in undefined to bypass TS error, googleSignInStart doesn't require a payload
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
@@ -33,7 +38,7 @@ const SignInForm = () => {
     setFormFields(defaultFormFields);
   };
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     setFormFields({
@@ -42,7 +47,7 @@ const SignInForm = () => {
     });
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {

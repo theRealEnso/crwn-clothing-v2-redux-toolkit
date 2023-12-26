@@ -46,6 +46,7 @@ export const userSlice = createSlice({
     //     return { payload: /* processed payload */ };
     //   },
     // }
+    // had to modify this to address the type error in the `handleSubmit` function inside the sign-in-form-component, specifically in the `try` block of code that dispatches the `emailSignInStart` function with a payload value of `{email, password}`. The type error reads `Argument of type '{ email: string; password: string; }' is not assignable to parameter of type 'void'.`
     emailSignInStart: {
       reducer: (state) => {
         state.isLoading = true;
@@ -70,7 +71,7 @@ export const userSlice = createSlice({
     // signUpStart: (state) => {
     //   state.isLoading = true;
     // },
-
+    // had to modify this to address the type error in the `handleSubmit` function inside the sign-up-form-component, specifically in the `try` block of code that dispatches the `signUpStart` function with a payload value of `{email, password, displayName}`. The type error reads `Argument of type '{ email: string; password: string; displayName: string; }' is not assignable to parameter of type 'void'.`
     signUpStart: {
       reducer: (state) => {
         state.isLoading = true;

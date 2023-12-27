@@ -1,10 +1,4 @@
-import {
-  ProductCartContainer,
-  Footer,
-  Name,
-  Price,
-  AddSuccessMessage,
-} from './product-card.styles';
+import {ProductCardContainer, Footer, Name, Price, AddSuccessMessage} from './product-card.styles';
 
 import { useDispatch, useSelector} from 'react-redux';
 
@@ -36,7 +30,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <ProductCartContainer>
+    <ProductCardContainer>
       <img src={imageUrl} alt={`${name}`} />
       <Footer>
         <Name>{name}</Name>
@@ -46,7 +40,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
       {addedProduct && addedProduct.id === product.id && <AddSuccessMessage>Product successfully added to cart! <DoneAllIcon></DoneAllIcon></AddSuccessMessage>}
 
-    </ProductCartContainer>
+    </ProductCardContainer>
   );
 };
 

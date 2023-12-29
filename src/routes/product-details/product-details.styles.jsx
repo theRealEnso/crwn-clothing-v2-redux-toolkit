@@ -1,4 +1,13 @@
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
+
+const fadeInOut = keyframes`
+  0%, 100% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+`;
 
 export const ProductDetailsContainer = styled.div`
     display: flex;
@@ -36,4 +45,11 @@ export const ButtonContainer = styled.div`
         box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.1);
         border-radius: 20px;
     }
+`
+
+export const FlashSuccessMessage = styled.span`
+  color: rgb(71, 240, 55);
+  font-size: 16px;
+  margin-top: -150px;
+  animation: ${fadeInOut} 3s ease-out;
 `

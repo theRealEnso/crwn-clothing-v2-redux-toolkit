@@ -1,14 +1,17 @@
 import {useLocation, useNavigate} from 'react-router-dom';
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import { ErrorBoundary } from 'react-error-boundary';
-import { ProductDetailsContainer, ProductContainer, ProductDetailsHeader, ButtonContainer } from './product-details.styles';
+import { ProductDetailsContainer, ProductContainer, ProductDetailsHeader, ButtonContainer, FlashSuccessMessage } from './product-details.styles';
 // import { AddToCartButton } from './product-details.styles';
 
 import Button, {BUTTON_TYPE_CLASSES} from '../../components/button/button.component';
 
-import { addItemToCart } from '../../store/cart/cart.reducer';
+import { addItemToCart, clearSuccessMessage } from '../../store/cart/cart.reducer';
+import { selectAddedProduct } from '../../store/cart/cart.selector';
+
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 
 
 const ProductDetails = () => {
@@ -16,11 +19,15 @@ const ProductDetails = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const {name, price, imageUrl, description} = location.state;
+    const {product} = location.state;
+    const {name, price, imageUrl, description} = product;
     // const {name, price, imageUrl, description} = product;
 
+    const addedProduct = useSelector(selectAddedProduct);
+
     const addProductToCart = () => {
-        dispatch(addItemToCart({name, price, imageUrl}));
+        dispatch(addItemToCart(product));
+        setTimeout(() => dispatch(clearSuccessMessage()), 3000);
     };
 
     const goToCheckout = () => {
@@ -44,11 +51,11 @@ const ProductDetails = () => {
                     <Button onClick={addProductToCart}>Add to Cart</Button>
                     <Button buttonType={BUTTON_TYPE_CLASSES.google} onClick={goToCheckout}>View Cart</Button>
                 </ButtonContainer>
+                {addedProduct && addedProduct.id === product.id && <FlashSuccessMessage>Successfully added to cart! <DoneAllIcon></DoneAllIcon></FlashSuccessMessage> }
                 </ProductContainer>
 
             </ProductDetailsContainer>
 
-            
 
         </ErrorBoundary>
     );

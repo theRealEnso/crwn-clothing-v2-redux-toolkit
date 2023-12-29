@@ -20,7 +20,7 @@ type ProductCardProps = {
 
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
-  const { name, price, imageUrl, id, description } = product;
+  const { name, price, imageUrl, id} = product;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,7 +33,8 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
   };
 
   const viewProductDetails = () => {
-    navigate(`/product/${id}`, {state: {name, price, imageUrl, description}})};
+    // navigate(`/product/${id}`, {state: {name, price, imageUrl, description, id}})};
+    navigate(`/product/${id}`, {state: {product}},)};
 
   return (
     <ProductCardContainer>

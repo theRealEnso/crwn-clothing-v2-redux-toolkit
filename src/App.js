@@ -9,6 +9,7 @@ import Navigation from './routes/navigation/navigation.component';
 import Authentication from './routes/authentication/authentication.component';
 import Shop from './routes/shop/shop.component';
 import Checkout from './routes/checkout/checkout.component';
+import ProductDetails from './routes/product-details/product-details.component';
 // import { setCurrentUser } from './store/user/user.action';
 import {checkUserSession} from './store/user/user.reducer';
 
@@ -41,6 +42,7 @@ const App = () => {
         <Route path='shop/*' element={<Shop />} />
         <Route path='auth' element={<Authentication />} />
         <Route path='checkout' element={<Checkout />} />
+        <Route path='product/:id' element={<ProductDetails />} />
       </Route>
     </Routes>
   );

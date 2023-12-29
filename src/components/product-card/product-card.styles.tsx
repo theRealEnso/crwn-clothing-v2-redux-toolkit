@@ -9,6 +9,19 @@ const fadeInOut = keyframes`
   }
 `;
 
+export const ButtonContainer = styled.div`
+  width: 100%; //of parent containing div
+  position: absolute;
+  top: 200px;
+  display: none;
+
+  button {
+    width: 50%;
+    opacity: 0.85;
+    margin-bottom: 10px;
+  }
+`
+
 export const ProductCardContainer = styled.div`
   width: 100%;
   display: flex;
@@ -16,49 +29,53 @@ export const ProductCardContainer = styled.div`
   height: 350px;
   align-items: center;
   position: relative;
+  border-radius: 8px;
+  overflow: hidden; //ensure rounded corners are applied
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
 
   img {
     width: 100%;
-    height: 95%;
+    height: 90%;
     object-fit: cover;
     margin-bottom: 5px;
-  }
-
-  button {
-    width: 80%;
-    opacity: 0.7;
-    position: absolute;
-    top: 255px;
-    display: none;
+    border-radius: 8px;
+    opacity: 0.9;
   }
 
   &:hover {
-    img {
-      opacity: 0.8;
-    }
+    transform: scale(1.05);
 
-    button {
-      opacity: 0.85;
-      display: flex;
+    img {
+      opacity: 1;
     }
+  }
+
+  &:hover ${ButtonContainer} {
+    opacity: 0.90;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
 export const Footer = styled.div`
   width: 100%;
-  height: 5%;
+  height: auto;
   display: flex;
   justify-content: space-between;
-  font-size: 18px;
+  font-size: 16px;
+  overflow: hidden;
 `;
 
 export const Name = styled.span`
-  width: 90%;
+  width: 85%;
   margin-bottom: 15px;
 `;
 
 export const Price = styled.span`
-  width: 10%;
+  width: 15%;
 `;
 
 export const AddSuccessMessage = styled.div`

@@ -56,6 +56,7 @@ export const addCollectionAndDocuments = async (collectionKey: string, productOb
     //Iterating through SHOP_DATA, create and set each object into collectionRef a.k.a categories collection as a new document, using the title as the ID. This creates hats/jackets/mens/sneakers/womens documents that will be nested under categories using the doc method. Finally, set method is used to populate  hats/jackets/mens/sneakers/womens docs with their respective data
 
     //Or in other words, The function then iterates over each object in the productObjectsToAdd array (SHOP_DATA array of objects), creating a reference to a document within the collectionRef using the doc method from the Firestore SDK. The document reference is created using the object's title property as the document ID, converted to lowercase using the toLowerCase method.
+    
     productObjectsToAdd.forEach((productObject) => {
         const docRef = doc(collectionRef, productObject.title.toLowerCase());
         batch.set(docRef, productObject);

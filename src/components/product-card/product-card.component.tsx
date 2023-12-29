@@ -1,6 +1,7 @@
-import {ProductCardContainer, Footer, Name, Price, AddSuccessMessage} from './product-card.styles';
+import {ProductCardContainer, ButtonContainer, Footer, Name, Price, AddSuccessMessage} from './product-card.styles';
 
 import { useDispatch, useSelector} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 // import { selectCartItems } from '../../store/cart/cart.selector';
 import { addItemToCart, clearSuccessMessage } from '../../store/cart/cart.reducer';
@@ -19,7 +20,9 @@ type ProductCardProps = {
 
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
-  const { name, price, imageUrl } = product;
+  const { name, price, imageUrl, id, description } = product;
+
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const addedProduct = useSelector(selectAddedProduct);
   // const cartItems = useSelector(selectCartItems);
@@ -29,19 +32,26 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
     setTimeout(() => dispatch(clearSuccessMessage()), 3000);
   };
 
+  const viewProductDetails = () => {
+    navigate(`/product/${id}`, {state: {name, price, imageUrl, description}})};
+
   return (
     <ProductCardContainer>
       <img src={imageUrl} alt={`${name}`} />
       <Footer>
         <Name>{name}</Name>
-        <Price>{price}</Price>
+        <Price>${price}</Price>
       </Footer>
-      <Button buttonType={BUTTON_TYPE_CLASSES.inverted} onClick={addProductToCart}>Add to cart</Button>
 
+      <ButtonContainer>
+        <Button buttonType={BUTTON_TYPE_CLASSES.google} onClick={viewProductDetails}>View Details</Button>
+        <Button buttonType={BUTTON_TYPE_CLASSES.inverted} onClick={addProductToCart}>Add to cart</Button>
+      </ButtonContainer>
+      
       {addedProduct && addedProduct.id === product.id && <AddSuccessMessage>Product successfully added to cart! <DoneAllIcon></DoneAllIcon></AddSuccessMessage>}
 
     </ProductCardContainer>
-  );
+  )
 };
 
 export default ProductCard;

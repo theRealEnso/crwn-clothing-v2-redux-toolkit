@@ -37,3 +37,9 @@ export const EmptyMessage = styled.span`
   font-size: 18px;
   margin: 50px auto;
 `;
+
+export const SubTotal = styled.div`
+  font-size: 18px;
+  text-align: center;
+  margin: 20px 0;
+`

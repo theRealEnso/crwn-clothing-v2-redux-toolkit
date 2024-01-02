@@ -14,6 +14,15 @@ export type CartState = {
   addedProduct: null | CategoryItem;
 };
 
+// const addCartItem = (cartItems: CartItem[], productToAdd: CartItem): CartItem[] => {
+//   const itemExistsInCart = cartItems.find((cartItem) => cartItem.id === productToAdd.id);
+
+//   if (itemExistsInCart) {
+//     return cartItems.map((cartItem) => cartItem.id === productToAdd.id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem);
+//   }
+
+//   return [...cartItems, { ...productToAdd, quantity: 1}];
+// };
 const addCartItem = (cartItems: CartItem[], productToAdd: CartItem): CartItem[] => {
   const itemExistsInCart = cartItems.find((cartItem) => cartItem.id === productToAdd.id);
 
@@ -21,7 +30,17 @@ const addCartItem = (cartItems: CartItem[], productToAdd: CartItem): CartItem[] 
     return cartItems.map((cartItem) => cartItem.id === productToAdd.id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem);
   }
 
-  return [...cartItems, { ...productToAdd, quantity: 1 }];
+  return [...cartItems, { ...productToAdd, quantity: 1}];
+};
+
+const addCartItemWithQuantity = (cartItems: CartItem[], productToAdd: CartItem): CartItem[] => {
+  const itemExistsInCart = cartItems.find((cartItem) => cartItem.id === productToAdd.id);
+
+  if (itemExistsInCart) {
+    return cartItems.map((cartItem) => cartItem.id === productToAdd.id ? { ...cartItem, quantity: cartItem.quantity + productToAdd.quantity }: cartItem);
+  };
+
+  return [...cartItems, { ...productToAdd, quantity: productToAdd.quantity }];
 };
 
 const removeCartItem = (cartItems: CartItem[], cartItemToRemove: CartItem): CartItem[] => {
@@ -55,6 +74,16 @@ export const cartSlice = createSlice({
       state.addedProduct = action.payload;
     },
 
+    // addItemToCartWithQuantity: (state, action) => {
+    //   const {product, quantity} = action.payload;
+    //   state.cartItems = addCartItemWithQuantity(state.cartItems, {...product, quantity});
+    //   state.addedProduct = {...product, quantity};
+    // },
+    addItemToCartWithQuantity: (state, action) => {
+      state.cartItems = addCartItemWithQuantity(state.cartItems, action.payload);
+      state.addedProduct = action.payload;
+    },
+
     removeItemFromCart: (state, action) => {
       state.cartItems = removeCartItem(state.cartItems, action.payload);
     },
@@ -73,7 +102,7 @@ export const cartSlice = createSlice({
   }
 });
 
-export const {addItemToCart, removeItemFromCart, clearItemFromCart, setIsCartOpen, clearSuccessMessage} = cartSlice.actions;
+export const {addItemToCart, addItemToCartWithQuantity, removeItemFromCart, clearItemFromCart, setIsCartOpen, clearSuccessMessage} = cartSlice.actions;
 
 export const cartReducer = cartSlice.reducer;
 

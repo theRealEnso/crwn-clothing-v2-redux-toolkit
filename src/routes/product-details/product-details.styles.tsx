@@ -1,4 +1,5 @@
 import styled, {keyframes} from 'styled-components';
+import Button from '../../components/button/button.component';
 
 const fadeInOut = keyframes`
   0%, 100% {
@@ -20,7 +21,7 @@ export const ProductDetailsContainer = styled.div`
         margin-right: 10%;
         border-radius: 10px;
         box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.1);
-        height: 600px;
+        height: 450px;
     }
 
 `
@@ -46,10 +47,52 @@ export const ButtonContainer = styled.div`
         border-radius: 20px;
     }
 `
+export const QuantityInputWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+`
+
+export const QuantityValue = styled.input`
+  ${'' /* margin: 0 10px; */}
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+`
+
+export const QuantityButton = styled.button`
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  ${'' /* padding: 8px 12px; */}
+  cursor: pointer;
+  font-size: 16px;
+  width: 20px;
+  height: 20px;
+`;
+
+export const AddToCartButton = styled(Button)`
+    margin-left: 5px;
+    ${'' /* border-radius: 10px; */}
+    font-size: 15px;
+    height: 20px;
+`;
 
 export const FlashSuccessMessage = styled.span`
   color: rgb(71, 240, 55);
   font-size: 16px;
   margin-top: -150px;
   animation: ${fadeInOut} 3s ease-out;
-`
+  /* Add the onAnimationEnd event directly in the styled component */
+  animation-fill-mode: forwards;
+  opacity: 0;
+  ${({ onAnimationEnd }) =>
+    onAnimationEnd &&
+    `
+    animation-play-state: paused;
+    &:hover {
+      animation-play-state: running;
+    }
+  `}
+`;
+

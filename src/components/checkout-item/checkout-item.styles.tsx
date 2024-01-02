@@ -23,7 +23,7 @@ export const ImageContainer = styled.div`
 
 export const CheckoutItemName = styled.span`
   width: 20%;
-  padding-left: 20px;
+  padding: 0 20px;
 `;
 
 export const CheckoutItemQuantity = styled.span`

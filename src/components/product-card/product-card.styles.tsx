@@ -81,8 +81,19 @@ export const Price = styled.span`
 export const AddSuccessMessage = styled.div`
   color: rgb(71, 240, 55);
   font-size: 16px;
-  margin-top: -150px;
+  margin-top: -200px;
   animation: ${fadeInOut} 3s ease-out;
+
+  animation-fill-mode: forwards;
+  opacity: 0;
+  ${({ onAnimationEnd }) =>
+    onAnimationEnd &&
+    `
+    animation-play-state: paused;
+    &:hover {
+      animation-play-state: running;
+    }
+  `}
 `
 
 // @keyframes fade-in-out {

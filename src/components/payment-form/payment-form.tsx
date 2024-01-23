@@ -51,7 +51,7 @@ const PaymentForm = () => {
 
                 card: cardDetails,
                 billing_details: {
-                    // name: currentUser ? currentUser.displayName : 'Guest',
+                    // name: currentUser ? currentUser.displayName : 'Guest', // TS says this could also return back null
                     name: guestName
                 }
             }

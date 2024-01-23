@@ -12,7 +12,7 @@ const fadeInOut = keyframes`
 export const ButtonContainer = styled.div`
   width: 100%; //of parent containing div
   position: absolute;
-  top: 200px;
+  top: 180px;
   display: none;
 
   button {

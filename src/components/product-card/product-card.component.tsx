@@ -34,7 +34,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
   const viewProductDetails = () => {
     // navigate(`/product/${id}`, {state: {name, price, imageUrl, description, id}})};
-    navigate(`/product/${id}`, {state: {product}},)};
+    navigate(`${id}`, {state: {product}},)};
 
   return (
     <ProductCardContainer>

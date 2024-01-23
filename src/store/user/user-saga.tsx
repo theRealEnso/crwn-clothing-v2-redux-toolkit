@@ -102,7 +102,7 @@ export function* onGoogleSignInStart() {
 };
 
 export function* onEmailSignInStart(){
-    // yield* takeLatest(emailSignInStart, signInWithEmail);
+    // yield* takeLatest(emailSignInStart, signInWithEmail); // TS throws errors
     const emailSignInChannel = yield* actionChannel(emailSignInStart);
     while (true) {
       const action: PayloadAction<{email: string; password: string} | undefined> = yield* take(emailSignInChannel);
@@ -115,7 +115,7 @@ export function* onEmailSignInStart(){
 };
 
 export function* onSignUpStart() {
-    // yield* takeLatest(signUpStart, signUpUser);
+    // yield* takeLatest(signUpStart, signUpUser); // TS throws errors
     const signUpStartChannel = yield* actionChannel(signUpStart);
     while (true) {
       const action: PayloadAction<{ email: string; password: string; displayName: string } | undefined> = yield* take(signUpStartChannel);

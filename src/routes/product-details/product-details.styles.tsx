@@ -78,12 +78,15 @@ export const AddToCartButton = styled(Button)`
     height: 20px;
 `;
 
-export const FlashSuccessMessage = styled.span`
+export const FlashSuccessMessage = styled.div`
+  display: flex;
+  justify-content: flex-end;
   color: rgb(71, 240, 55);
   font-size: 16px;
-  margin-top: -150px;
+  margin-top: -90px;
+  margin-left: auto;
   animation: ${fadeInOut} 3s ease-out;
-  /* Add the onAnimationEnd event directly in the styled component */
+
   animation-fill-mode: forwards;
   opacity: 0;
   ${({ onAnimationEnd }) =>

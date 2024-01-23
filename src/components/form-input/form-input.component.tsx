@@ -12,6 +12,7 @@ const FormInput: FC<FormInputProps> = ({ label, ...otherProps }) => {
       <Input {...otherProps} />
       {label && (
         // add additional three checks to fix type error. First, ensure that otherProps.value.length is wrapped inside Boolean, because it essentially returns a boolean. Next, add check to see if otherProps.value is truthy, because typescript says this can return undefined (in the event that no props are passed through). Finally, form inputs can accept both strings AND numbers, and TS says the 'length' property does not exist on numbers, so we add 3rd check to see if the data type of otherProps is of string data type.  => 
+        
         <FormInputLabel shrink={Boolean(otherProps.value && typeof otherProps.value === 'string' && otherProps.value.length)}>
           {label}
         </FormInputLabel>
